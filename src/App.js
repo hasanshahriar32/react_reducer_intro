@@ -1,13 +1,10 @@
-import logo from "./logo.svg";
 import "./App.css";
-import Counter from "./Components/Counter";
-import ComplexCounter from "./Components/ComplexCounter";
+import Router from "./Router/Router";
 
 function App() {
   return (
     <div className="App">
-      <Counter></Counter>
-      <ComplexCounter></ComplexCounter>
+      <Router></Router>
     </div>
   );
 }

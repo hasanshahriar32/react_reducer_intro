@@ -1,70 +1,100 @@
-# Getting Started with Create React App
+[https://www.youtube.com/watch?v=BNB-Q5yI-\_o&list=PLHiZ4m8vCp9M6HVQv7a36cp8LKzyHIePr&index=23](https://www.youtube.com/watch?v=BNB-Q5yI-_o&list=PLHiZ4m8vCp9M6HVQv7a36cp8LKzyHIePr&index=23)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+[Array.prototype.reduce() - JavaScript | MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce)
 
-## Available Scripts
+- useState() is created based on useReducer()
+- any of one can be used instead of another
 
-In the project directory, you can run:
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/31b9b54d-78ee-4307-84ec-f6e71e3a968f/Untitled.png)
 
-### `npm start`
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/6f1030d5-f39a-471d-bd21-89ca860f2387/Untitled.png)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+# Fundamental structure
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+1. declare button
+2. create reducer function
 
-### `npm test`
+```powershell
+const [count, dispatch] = useReducer(reducer, initialState);
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. initialState and reducer function
 
-### `npm run build`
+```powershell
+const initialState = 0;
+const reducer = (state, action) => {
+  switch (action) {
+    case "increment":
+      return state + 1;
+    case "decrement":
+      return state - 1;
+    default:
+      return state;
+  }
+};
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. dispatch button function
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```powershell
+<div>
+      <div>count: {count}</div>
+      <button type="button" onClick={() => dispatch("increment")}>
+        increment
+      </button>
+      <button type="button" onClick={() => dispatch("decrement")}>
+        decrement
+      </button>
+    </div>
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```
 
-### `npm run eject`
+# Complex structure
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+benefit:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- by making action a object (not direct value), we can set various properties and values
+-
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```powershell
+switch (action.type) {
+    case "increment":
+      return { counter: state.counter + action.value };
+    default:
+      return state;
+  }
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```
 
-## Learn More
+-
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```powershell
+<button
+        type="button"
+        onClick={() =>
+          dispatch({
+            type: "increment",
+            value: 1,
+          })
+        }
+      >
+        increment by 1
+      </button>
+      <button
+        type="button"
+        onClick={() =>
+          dispatch({
+            type: "increment",
+            value: 5,
+          })
+        }
+      >
+        increment by 5
+      </button>
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+-
 
-### Code Splitting
+### For multiple counter
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+# Above complex structure at a different way
