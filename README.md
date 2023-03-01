@@ -301,4 +301,4 @@ const CounterThree = () => {
 export default CounterThree;
 ```
 
-# Above complex structure at a different way
+# Above complex structure with useContext (Global State)
