@@ -398,3 +398,112 @@ you can visit the live site here of following code
 [https://react-reducer-intro.vercel.app/global](https://react-reducer-intro.vercel.app/global)
 
 # Data fetch (useState vs useReducer)
+
+### using useState
+
+```jsx
+import React from "react";
+import { Link } from "react-router-dom";
+
+const DataFetch = () => {
+  const [loading, setLoading] = React.useState(true);
+  const [error, setError] = React.useState("");
+  const [post, setPost] = React.useState({});
+
+  const random = Math.floor(Math.random() * 100) + 1;
+  React.useEffect(() => {
+    fetch("https://jsonplaceholder.typicode.com/posts/" + random + "")
+      .then((response) => response.json())
+      .then((json) => {
+        setLoading(false);
+        setPost(json);
+        setError("");
+      })
+      .catch((error) => {
+        setLoading(false);
+        setPost({});
+        setError("Something went wrong!");
+      });
+  }, []);
+  return (
+    <div>
+      <hr />
+      <Link to="/global">back</Link>
+      <br />
+      <hr />
+      <br />
+      <h1>Data Fetch using useState</h1>
+
+      <h3>{loading ? "Loading..." : post.title}</h3>
+      {post.body}
+      {error ? error : null}
+      <br />
+      {/* create button to fetch new data */}
+      <button type="button" onClick={() => window.location.reload()}>
+        Fetch new data
+      </button>
+      <br />
+    </div>
+  );
+};
+
+export default DataFetch;
+```
+
+### using useReducer
+
+```jsx
+import React from "react";
+
+const initialState = {
+  loading: true,
+  error: "",
+  post: {},
+};
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "FETCH_SUCCESS":
+      return {
+        loading: false,
+        post: action.payload,
+        error: "",
+      };
+    case "FETCH_ERROR":
+      return {
+        loading: false,
+        post: {},
+        error: "Something went wrong!",
+      };
+    default:
+      return state;
+  }
+};
+
+const DataFetch2 = () => {
+  const [state, dispatch] = React.useReducer(reducer, initialState);
+  const random = Math.floor(Math.random() * 100) + 1;
+
+  React.useEffect(() => {
+    fetch("https://jsonplaceholder.typicode.com/posts/" + random + "")
+      .then((response) => response.json())
+      .then((json) => {
+        dispatch({ type: "FETCH_SUCCESS", payload: json });
+      })
+      .catch((error) => {
+        dispatch({ type: "FETCH_ERROR" });
+      });
+  }, []);
+  return (
+    <div>
+      <h1>DataFetch2 using useReducer</h1>
+      <div>
+        {state.loading ? "loading" : state.post.title}
+        {state.post.body}
+        {state.error ? state.error : null}
+      </div>
+    </div>
+  );
+};
+
+export default DataFetch2;
+```
