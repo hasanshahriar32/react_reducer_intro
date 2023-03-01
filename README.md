@@ -302,3 +302,99 @@ export default CounterThree;
 ```
 
 # Above complex structure with useContext (Global State)
+
+create a new counterContext.js file
+
+```jsx
+import React, { useReducer } from "react";
+
+export const ComputeContext = React.createContext();
+
+const initialState = 0;
+const reducer = (state, action) => {
+  switch (action) {
+    case "increment":
+      return state + 1;
+    case "decrement":
+      return state - 1;
+    default:
+      return state;
+  }
+};
+
+const CounterContext = ({ children }) => {
+  const [count, dispatch] = useReducer(reducer, initialState);
+  const countInfo = {
+    countState: count,
+    countDispatch: dispatch,
+  };
+  return (
+    <div>
+      <ComputeContext.Provider value={countInfo}>
+        {children}
+      </ComputeContext.Provider>
+    </div>
+  );
+};
+
+export default CounterContext;
+```
+
+go at index.js and surround index.js with counterContext.js file
+
+```
+<React.StrictMode>
+    <CounterContext>
+      <App />
+    </CounterContext>
+  </React.StrictMode>
+```
+
+### Now, update counterContext and create a Global reducer counter
+
+now we can use global counter function from any component
+
+- create a globalContest.js function
+
+```jsx
+import React from "react";
+import { Link } from "react-router-dom";
+import { ComputeContext } from "../CounterContext/CounterContext";
+
+const CounterGlobal = () => {
+  const countContext = React.useContext(ComputeContext);
+
+  return (
+    <div>
+      <hr />
+      <Link to="/advanced">back</Link>
+      <br />
+      <hr />
+      <br />
+      <div>count: {countContext.countState}</div>
+      <button
+        type="button"
+        onClick={() => countContext.countDispatch("increment")}
+      >
+        increment
+      </button>
+      <button
+        type="button"
+        onClick={() => countContext.countDispatch("decrement")}
+      >
+        decrement
+      </button>
+      <br />
+      <hr />
+    </div>
+  );
+};
+
+export default CounterGlobal;
+```
+
+you can visit the live site here of following code
+
+[https://react-reducer-intro.vercel.app/global](https://react-reducer-intro.vercel.app/global)
+
+# Data fetch (useState vs useReducer)

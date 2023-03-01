@@ -27,6 +27,9 @@ const CounterGlobal = () => {
       </button>
       <br />
       <hr />
+      <Link to="/datafetch">Fetch data and control using useReducer</Link>
+      <br />
+      <hr />
     </div>
   );
 };

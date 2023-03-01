@@ -4,6 +4,8 @@ import ComplexCounter from "../Components/ComplexCounter";
 import Counter from "../Components/Counter";
 import CounterGlobal from "../Components/CounterGlobal";
 import CounterThree from "../Components/CounterThree";
+import DataFetch from "../Components/DataFetch";
+import DataFetch2 from "../Components/DataFetch2";
 
 const Router = () => {
   const router = createBrowserRouter([
@@ -38,6 +40,15 @@ const Router = () => {
       element: (
         <>
           <CounterGlobal></CounterGlobal>
+        </>
+      ),
+    },
+    {
+      path: "/datafetch",
+      element: (
+        <>
+          <DataFetch></DataFetch>
+          <DataFetch2></DataFetch2>
         </>
       ),
     },
